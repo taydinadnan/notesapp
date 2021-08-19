@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "444324850388",
+    "project_id": "notsapp-b1d4d",
+    "storage_bucket": "notsapp-b1d4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444324850388:android:45a2046dcf98a861892941",
+        "android_client_info": {
+          "package_name": "com.example.notsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444324850388-52t63d1f5j3m4gl6ur3pnrg9qavhodkp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvUnqL4Y4qccym8WuEz-W5MaqSb70AiXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444324850388-52t63d1f5j3m4gl6ur3pnrg9qavhodkp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
