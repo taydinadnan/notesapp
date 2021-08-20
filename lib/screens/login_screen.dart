@@ -1,96 +1,134 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:notsapp/controller/google_auth.dart';
+import 'package:notsapp/screens/home_screen.dart';
+import '/controller/google_auth.dart';
 
-class LoginScreen extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginState createState() => _LoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginState extends State<Login> {
+  String _email, _password;
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
+      backgroundColor: Colors.teal,
+      body: SingleChildScrollView(
         child: Column(
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage("assets/images/cover.png"),
+          children: <Widget>[
+            SizedBox(
+              height: 100,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 60.0),
+              child: Center(
+                child: Container(
+                  width: 200,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Image.asset(
+                    'assets/images/notsappicon.png',
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-            ListTile(
-              title: Row(
-                children: <Widget>[
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: 380,
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 100),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: "STIXTwoText",
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                        hintText: 'Enter a valid email id as abc@gmail.com',
                       ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Colors.redAccent[700],
-                        ),
-                        padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(
-                            vertical: 5.0,
-                          ),
-                        ),
-                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _email = value.trim();
+                        });
+                      },
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 50),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Signup",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: "STIXTwoText",
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                    padding: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, top: 15, bottom: 0),
+                    //padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        hintText: 'Enter secure password',
                       ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Colors.redAccent[700],
-                        ),
-                        padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(
-                            vertical: 5.0,
-                          ),
-                        ),
-                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _password = value.trim();
+                        });
+                      },
                     ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
+              ),
+            ),
+            FlatButton(
+                onPressed: () {
+                  auth.createUserWithEmailAndPassword(
+                      email: _email, password: _password);
+                },
+                child: Text(
+                  'Forgot Password',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontFamily: "STIXTwoText",
+                      fontWeight: FontWeight.bold),
+                )),
+            Container(
+              height: 50,
+              width: 250,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: FlatButton(
+                onPressed: () {
+                  auth.signInWithEmailAndPassword(
+                      email: _email, password: _password);
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                },
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontFamily: "STIXTwoText",
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 10.0,
+                horizontal: 170,
               ),
               child: ElevatedButton(
                 onPressed: () {
@@ -99,14 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      "Continue with Google",
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: "STIXTwoText",
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     Image.asset(
                       'assets/images/googleicon.png',
                       height: 30,
@@ -115,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    Colors.redAccent[700],
+                    Colors.white,
                   ),
                   padding: MaterialStateProperty.all(
                     EdgeInsets.symmetric(
@@ -125,10 +155,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            //
-            SizedBox(
-              height: 15.0,
-            ),
+            Text(
+              'New User? Create Account',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontFamily: "STIXTwoText",
+                  fontWeight: FontWeight.bold),
+            )
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notsapp/screens/home_screen.dart';
+import 'package:notsapp/screens/login_screen.dart';
 
 GoogleSignIn googleSignIn = GoogleSignIn();
 final FirebaseAuth auth = FirebaseAuth.instance;
@@ -13,8 +14,7 @@ CollectionReference users = FirebaseFirestore.instance.collection('users');
 // as bool was not needed here
 void signInWithGoogle(BuildContext context) async {
   try {
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -27,7 +27,7 @@ void signInWithGoogle(BuildContext context) async {
       final UserCredential authResult =
           await auth.signInWithCredential(credential);
 
-      final User? user = authResult.user;
+      final User user = authResult.user;
 
       var userData = {
         'name': googleSignInAccount.displayName,
@@ -36,7 +36,7 @@ void signInWithGoogle(BuildContext context) async {
         'email': googleSignInAccount.email,
       };
 
-      users.doc(user!.uid).get().then((doc) {
+      users.doc(user.uid).get().then((doc) {
         if (doc.exists) {
           // old user
           doc.reference.update(userData);
@@ -49,11 +49,11 @@ void signInWithGoogle(BuildContext context) async {
         } else {
           // new user
 
-          users.doc(user!.uid).set(userData);
+          users.doc(user.uid).set(userData);
 
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => HomeScreen(),
+              builder: (context) => Login(),
             ),
           );
         }
