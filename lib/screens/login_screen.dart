@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notsapp/screens/home_screen.dart';
+import 'package:notsapp/screens/notes_screen.dart';
 import '/controller/google_auth.dart';
 
 class Login extends StatefulWidget {
@@ -114,7 +115,10 @@ class _LoginState extends State<Login> {
                   auth.signInWithEmailAndPassword(
                       email: _email, password: _password);
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(),
+                    ),
+                  );
                 },
                 child: Text(
                   'Login',
